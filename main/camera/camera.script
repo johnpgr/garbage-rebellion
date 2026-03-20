@@ -1,0 +1,53 @@
+-- camera.script
+-- Anexe em: camera.go (que tambem tem um componente Camera)
+-- Coloque camera.go DENTRO de main.collection
+
+--- @type number  Quao rapido a camera alcanca o player (faixa 0..1, maior = mais responsiva)
+local LERP_SPEED = 8.0
+
+--- @type number  Antecipacao horizontal em pixels na direcao do movimento
+local LOOKAHEAD  = 40
+
+--- @type number  Trava o Y da camera em uma altura fixa em pixels (defina nil para seguir verticalmente)
+local FIXED_Y    = 60   -- corresponde ao Y inicial do player na collection
+
+local DEFAULT_CAMERA_Z = 10
+
+------------------------------------------------------------------------
+
+function init(self)
+	local start_pos = go.get_position()
+	if start_pos.z <= 0 then
+		start_pos.z = DEFAULT_CAMERA_Z
+		go.set_position(start_pos)
+	end
+
+	msg.post("#camera", "acquire_camera_focus")
+	-- avisa o render script para usar a projecao desta camera
+	msg.post("@render:", "use_camera_projection")
+	--- @type vector3  Posicao suavizada da camera, comeca na propria posicao da camera
+	self.cam_pos = start_pos
+end
+
+function update(self, dt)
+	--- @type vector3  Posicao atual do game object do player no mundo
+	local player_pos = go.get_position(msg.url("main:/player"))
+
+	-- antecipacao: olha um pouco a frente na direcao para a qual o player esta virado
+	--- @type number  A escala X do sprite e 1 quando olha para leste e -1 quando olha para oeste
+	local scale_x = go.get("main:/player#sprite", "scale.x")
+
+	--- @type number
+	local target_x = player_pos.x + LOOKAHEAD * (scale_x >= 0 and 1 or -1)
+
+	--- @type number
+	local target_y = FIXED_Y ~= nil and FIXED_Y or player_pos.y
+
+	--- @type vector3  Onde queremos que a camera esteja neste frame
+	local target = vmath.vector3(target_x, target_y, self.cam_pos.z)
+
+	-- seguimento suave: interpola a camera em direcao ao alvo
+	self.cam_pos = vmath.lerp(LERP_SPEED * dt, self.cam_pos, target)
+
+	go.set_position(self.cam_pos)
+end

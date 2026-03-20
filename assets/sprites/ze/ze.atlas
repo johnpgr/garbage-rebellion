@@ -1,0 +1,85 @@
+animations {
+  id: "idle_east"
+  images {
+    image: "/assets/sprites/ze/rotations/east.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 1
+}
+animations {
+  id: "idle_west"
+  images {
+    image: "/assets/sprites/ze/rotations/west.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 1
+}
+animations {
+  id: "walk_east"
+  images {
+    image: "/assets/sprites/ze/animations/walking-4-frames/east/frame_000.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/walking-4-frames/east/frame_001.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/walking-4-frames/east/frame_002.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/walking-4-frames/east/frame_003.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 10
+}
+animations {
+  id: "walk_west"
+  images {
+    image: "/assets/sprites/ze/animations/walking-4-frames/west/frame_000.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/walking-4-frames/west/frame_001.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/walking-4-frames/west/frame_002.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/walking-4-frames/west/frame_003.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 10
+}
+animations {
+  id: "run_east"
+  images {
+    image: "/assets/sprites/ze/animations/running-4-frames/east/frame_000.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/running-4-frames/east/frame_001.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/running-4-frames/east/frame_002.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/running-4-frames/east/frame_003.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 14
+}
+animations {
+  id: "run_west"
+  images {
+    image: "/assets/sprites/ze/animations/running-4-frames/west/frame_000.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/running-4-frames/west/frame_001.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/running-4-frames/west/frame_002.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/running-4-frames/west/frame_003.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 14
+}
+extrude_borders: 2
