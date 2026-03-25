@@ -1,0 +1,28 @@
+local aabb = require "main.collision.aabb"
+
+go.property("half_extents", vmath.vector3(16, 16, 0))
+go.property("color", vmath.vector4(0.95, 0.45, 0.15, 1.0))
+
+function init(self)
+	local scale = go.get_scale()
+
+	self.box_id = go.get_id()
+	self.center = go.get_position()
+	self.half_extents = vmath.vector3(
+		self.half_extents.x * scale.x,
+		self.half_extents.y * scale.y,
+		0
+	)
+
+	aabb.register(self.box_id, self.center, self.half_extents)
+end
+
+function update(self, dt)
+	self.center = go.get_position()
+	aabb.update(self.box_id, self.center, self.half_extents)
+	aabb.draw_box(self.center, self.half_extents, self.color)
+end
+
+function final(self)
+	aabb.unregister(self.box_id)
+end
