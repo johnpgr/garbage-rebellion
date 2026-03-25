@@ -3,11 +3,8 @@
 
 local aabb = require "main.collision.aabb"
 
---- @type number  Velocidade horizontal de caminhada em pixels/segundo
-local WALK_SPEED   = 120
-
---- @type number  Velocidade horizontal de corrida em pixels/segundo
-local RUN_SPEED    = 220
+--- @type number  Velocidade horizontal em pixels/segundo
+local SPEED = 220
 
 --- @type number  Velocidade para cima aplicada no pulo
 local JUMP_FORCE   = 550
@@ -27,7 +24,6 @@ local PLAYER_DEBUG_COLOR  = vmath.vector4(0.15, 0.85, 1.0, 1.0)
 --- @field left    boolean
 --- @field right   boolean
 --- @field jump    boolean
---- @field run     boolean
 
 --- @class PlayerState
 --- @field velocity     vector3
@@ -51,21 +47,16 @@ end
 --- Escolhe a animacao correta com base no estado do player
 --- @param self  PlayerState
 local function update_anim(self)
-	local moving  = self.velocity.x ~= 0
-	local running = moving and self.input.run
-	local f       = self.facing  -- "east" ou "west"
+	local moving = self.velocity.x ~= 0
+	local f      = self.facing  -- "east" ou "west"
+
+	sprite.set_hflip("#sprite", f == "west")
 
 	if not self.grounded then
-		sprite.set_hflip("#sprite", f == "west")
-		play_anim(self, "idle_east")
-	elseif running then
-		sprite.set_hflip("#sprite", f == "west")
-		play_anim(self, "run_east")
+		play_anim(self, "jump_east")
 	elseif moving then
-		sprite.set_hflip("#sprite", f == "west")
-		play_anim(self, "walk_east")
+		play_anim(self, "run_east")
 	else
-		sprite.set_hflip("#sprite", f == "west")
 		play_anim(self, "idle_east")
 	end
 end
@@ -137,19 +128,16 @@ function init(self)
 		left  = false,
 		right = false,
 		jump  = false,
-		run   = false,
 	}
 end
 
 function update(self, dt)
 	-- ── Horizontal ────────────────────────────────────────────────────
-	local speed = self.input.run and RUN_SPEED or WALK_SPEED
-
 	if self.input.right then
-		self.velocity.x = speed
+		self.velocity.x = SPEED
 		self.facing = "east"
 	elseif self.input.left then
-		self.velocity.x = -speed
+		self.velocity.x = -SPEED
 		self.facing = "west"
 	else
 		self.velocity.x = 0
@@ -191,7 +179,6 @@ function on_input(self, action_id, action)
 
 	if action_id == hash("left")  then self.input.left  = held
 	elseif action_id == hash("right") then self.input.right = held
-	elseif action_id == hash("run")   then self.input.run   = held
 	elseif action_id == hash("jump")  then
 		if action.pressed and self.grounded then
 			self.velocity.y = JUMP_FORCE

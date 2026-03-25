@@ -1,9 +1,199 @@
 animations {
   id: "idle_east"
   images {
-    image: "/assets/sprites/ze/rotations/east.png"
+    image: "/assets/sprites/ze/animations/breathing-idle/east/frame_000.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 0
+}
+animations {
+  id: "run_east"
+  images {
+    image: "/assets/sprites/ze/animations/running-8-frames/east/frame_000.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/running-8-frames/east/frame_001.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/running-8-frames/east/frame_002.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/running-8-frames/east/frame_003.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/running-8-frames/east/frame_004.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/running-8-frames/east/frame_005.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/running-8-frames/east/frame_006.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/running-8-frames/east/frame_007.png"
   }
   playback: PLAYBACK_LOOP_FORWARD
-  fps: 1
+  fps: 8
+}
+animations {
+  id: "jump_east"
+  images {
+    image: "/assets/sprites/ze/animations/jumping-1/east/frame_000.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/jumping-1/east/frame_001.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/jumping-1/east/frame_002.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/jumping-1/east/frame_003.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/jumping-1/east/frame_004.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/jumping-1/east/frame_005.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/jumping-1/east/frame_006.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/jumping-1/east/frame_007.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/jumping-1/east/frame_008.png"
+  }
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 8
+}
+animations {
+  id: "crouch_east"
+  images {
+    image: "/assets/sprites/ze/animations/crouching/east/frame_000.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/crouching/east/frame_001.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/crouching/east/frame_002.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/crouching/east/frame_003.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/crouching/east/frame_004.png"
+  }
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 8
+}
+animations {
+  id: "jab_east"
+  images {
+    image: "/assets/sprites/ze/animations/lead-jab/east/frame_000.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/lead-jab/east/frame_001.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/lead-jab/east/frame_002.png"
+  }
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 8
+}
+animations {
+  id: "pull_east"
+  images {
+    image: "/assets/sprites/ze/animations/pull-heavy-object/east/frame_000.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/pull-heavy-object/east/frame_001.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/pull-heavy-object/east/frame_002.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/pull-heavy-object/east/frame_003.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/pull-heavy-object/east/frame_004.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/pull-heavy-object/east/frame_005.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 8
+}
+animations {
+  id: "push_east"
+  images {
+    image: "/assets/sprites/ze/animations/pushing/east/frame_000.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/pushing/east/frame_001.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/pushing/east/frame_002.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/pushing/east/frame_003.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/pushing/east/frame_004.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/pushing/east/frame_005.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 8
+}
+animations {
+  id: "kick_east"
+  images {
+    image: "/assets/sprites/ze/animations/roundhouse-kick/east/frame_000.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/roundhouse-kick/east/frame_001.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/roundhouse-kick/east/frame_002.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/roundhouse-kick/east/frame_003.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/roundhouse-kick/east/frame_004.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/roundhouse-kick/east/frame_005.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/roundhouse-kick/east/frame_006.png"
+  }
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 8
+}
+animations {
+  id: "hit_east"
+  images {
+    image: "/assets/sprites/ze/animations/taking-punch/east/frame_000.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/taking-punch/east/frame_001.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/taking-punch/east/frame_002.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/taking-punch/east/frame_003.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/taking-punch/east/frame_004.png"
+  }
+  images {
+    image: "/assets/sprites/ze/animations/taking-punch/east/frame_005.png"
+  }
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 8
 }
 extrude_borders: 2

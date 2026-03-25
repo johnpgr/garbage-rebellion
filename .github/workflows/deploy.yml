@@ -1,0 +1,38 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [master]
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Download bob.jar
+        run: |
+          VERSION=$(curl -s https://d.defold.com/stable/info.json | python3 -c "import sys,json; print(json.load(sys.stdin)['version'])")
+          curl -L "https://github.com/defold/defold/releases/download/${VERSION}/bob.jar" -o bob.jar
+
+      - name: Build HTML5
+        run: java -jar bob.jar --platform js-web --variant release --bundle-output ./bundle resolve build bundle
+
+      - name: Stage output
+        run: |
+          BUNDLE_DIR=$(find ./bundle -name "index.html" -exec dirname {} \; | head -1)
+          cp -r "$BUNDLE_DIR/." ./deploy
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./deploy

@@ -1,0 +1,8 @@
+animations {
+  id: "background"
+  images {
+    image: "/assets/scenery/ver-o-peso8.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 0
+}
