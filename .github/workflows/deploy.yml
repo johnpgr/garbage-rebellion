@@ -24,7 +24,7 @@ jobs:
           curl -L "https://github.com/defold/defold/releases/download/${VERSION}/bob.jar" -o bob.jar
 
       - name: Build HTML5
-        run: java -jar bob.jar --platform js-web --variant release --archive --bundle-output ./bundle resolve build bundle
+        run: java -jar bob.jar --platform js-web --variant debug --archive --bundle-output ./bundle resolve build bundle
 
       - name: Stage output
         run: |
