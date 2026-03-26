@@ -1,0 +1,10 @@
+function init(self)
+	local position = go.get_position()
+	if position.z <= 0 then
+		position.z = 10
+		go.set_position(position)
+	end
+
+	msg.post("#camera", "acquire_camera_focus")
+	msg.post("@render:", "use_camera_projection")
+end

@@ -1,0 +1,20 @@
+local game_state = require "main.game.game_state"
+
+local OFFSET = vmath.vector3(0, -120, 0)
+
+local function snap(value)
+	return math.floor(value + 0.5)
+end
+
+function update(self, dt)
+	local camera_pos = go.get_position(msg.url("main:/camera"))
+	go.set_position(vmath.vector3(snap(camera_pos.x + OFFSET.x), snap(camera_pos.y + OFFSET.y), 0))
+
+	if game_state.game_over_reason == "dead" then
+		label.set_text("#label", "YOU LOST")
+	elseif game_state.game_over_reason == "time" then
+		label.set_text("#label", "TIME UP")
+	else
+		label.set_text("#label", "")
+	end
+end

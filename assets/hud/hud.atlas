@@ -1,0 +1,9 @@
+animations {
+  id: "health_bar"
+  images {
+    image: "/assets/hud/barra_de_vida.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 0
+}
+extrude_borders: 2

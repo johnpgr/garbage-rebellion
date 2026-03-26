@@ -1,0 +1,67 @@
+name: "menu"
+instances {
+  id: "controller"
+  prototype: "/main/menu/menu_controller.go"
+}
+instances {
+  id: "camera"
+  prototype: "/main/menu/menu_camera.go"
+  position {
+    x: 240.0
+    y: 160.0
+    z: 10.0
+  }
+}
+instances {
+  id: "title"
+  prototype: "/main/menu/menu_title.go"
+  position {
+    x: 240.0
+    y: 220.0
+  }
+  scale3 {
+    x: 0.5
+    y: 0.5
+    z: 1.0
+  }
+}
+instances {
+  id: "prompt"
+  prototype: "/main/menu/menu_prompt.go"
+  position {
+    x: 240.0
+    y: 82.0
+  }
+  scale3 {
+    x: 0.5
+    y: 0.5
+    z: 1.0
+  }
+}
+instances {
+  id: "player"
+  prototype: "/main/menu/menu_player.go"
+  position {
+    x: 168.0
+    y: 146.0
+  }
+  scale3 {
+    x: 2.0
+    y: 2.0
+    z: 1.0
+  }
+}
+instances {
+  id: "enemy"
+  prototype: "/main/menu/menu_enemy.go"
+  position {
+    x: 314.0
+    y: 148.0
+  }
+  scale3 {
+    x: 2.0
+    y: 2.0
+    z: 1.0
+  }
+}
+scale_along_z: 0

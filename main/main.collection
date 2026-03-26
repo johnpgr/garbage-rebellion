@@ -1,47 +1,5 @@
 name: "main"
 instances {
-  id: "bg_0"
-  prototype: "/main/background/background.go"
-  position {
-    x: 240.0
-    y: 60.0
-    z: -1.0
-  }
-  scale3 {
-    x: 3.0
-    y: 3.0
-    z: 1.0
-  }
-}
-instances {
-  id: "bg_1"
-  prototype: "/main/background/background.go"
-  position {
-    x: 720.0
-    y: 60.0
-    z: -1.0
-  }
-  scale3 {
-    x: 3.0
-    y: 3.0
-    z: 1.0
-  }
-}
-instances {
-  id: "bg_2"
-  prototype: "/main/background/background.go"
-  position {
-    x: 1200.0
-    y: 60.0
-    z: -1.0
-  }
-  scale3 {
-    x: 3.0
-    y: 3.0
-    z: 1.0
-  }
-}
-instances {
   id: "player"
   prototype: "/main/player/player.go"
   position {
@@ -49,8 +7,56 @@ instances {
   }
 }
 instances {
+  id: "game"
+  prototype: "/main/game/game.go"
+}
+instances {
   id: "camera"
   prototype: "/main/camera/camera.go"
+}
+instances {
+  id: "hud_health"
+  prototype: "/main/hud/hud_health.go"
+  position {
+    z: 5.0
+  }
+  scale3 {
+    x: 0.5
+    y: 0.5
+  }
+}
+instances {
+  id: "hud_timer"
+  prototype: "/main/hud/hud_timer.go"
+  position {
+    z: 5.0
+  }
+  scale3 {
+    x: 0.5
+    y: 0.5
+  }
+}
+instances {
+  id: "hud_score"
+  prototype: "/main/hud/hud_score.go"
+  position {
+    z: 5.0
+  }
+  scale3 {
+    x: 0.5
+    y: 0.5
+  }
+}
+instances {
+  id: "hud_notice"
+  prototype: "/main/hud/hud_notice.go"
+  position {
+    z: 5.0
+  }
+  scale3 {
+    x: 0.5
+    y: 0.5
+  }
 }
 instances {
   id: "ground"
@@ -61,21 +67,16 @@ instances {
   }
   scale3 {
     x: 45.0
-    y: 1.0
-    z: 1.0
   }
 }
 instances {
   id: "wall_left"
   prototype: "/main/debug_box/debug_box.go"
   position {
-    x: 0.0
     y: 53.0
   }
   scale3 {
-    x: 1.0
     y: 4.0
-    z: 1.0
   }
 }
 instances {
@@ -86,9 +87,7 @@ instances {
     y: 53.0
   }
   scale3 {
-    x: 1.0
     y: 4.0
-    z: 1.0
   }
 }
 instances {
@@ -101,7 +100,6 @@ instances {
   scale3 {
     x: 1.5
     y: 1.5
-    z: 1.0
   }
 }
 instances {
@@ -112,9 +110,7 @@ instances {
     y: 37.0
   }
   scale3 {
-    x: 1.0
     y: 4.0
-    z: 1.0
   }
 }
 instances {
@@ -127,7 +123,6 @@ instances {
   scale3 {
     x: 4.0
     y: 0.5
-    z: 1.0
   }
 }
 instances {
@@ -140,7 +135,6 @@ instances {
   scale3 {
     x: 1.5
     y: 1.5
-    z: 1.0
   }
 }
 instances {
@@ -151,9 +145,7 @@ instances {
     y: 37.0
   }
   scale3 {
-    x: 1.0
     y: 4.0
-    z: 1.0
   }
 }
 instances {
@@ -166,7 +158,6 @@ instances {
   scale3 {
     x: 3.0
     y: 0.5
-    z: 1.0
   }
 }
 instances {
@@ -179,7 +170,6 @@ instances {
   scale3 {
     x: 4.0
     y: 0.5
-    z: 1.0
   }
 }
 instances {
@@ -192,7 +182,6 @@ instances {
   scale3 {
     x: 1.5
     y: 1.5
-    z: 1.0
   }
 }
 instances {
@@ -225,6 +214,14 @@ instances {
   position {
     x: 1290.0
     y: -3.0
+  }
+}
+instances {
+  id: "enemy_1"
+  prototype: "/main/enemy/enemy.go"
+  position {
+    x: 122.0
+    y: 15.0
   }
 }
 scale_along_z: 0

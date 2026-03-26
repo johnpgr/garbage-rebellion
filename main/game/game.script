@@ -1,0 +1,7 @@
+local game_state = require "main.game.game_state"
+
+function update(self, dt)
+	if game_state.tick(dt) then
+		msg.post("bootstrap:/controller#controller", "show_menu")
+	end
+end

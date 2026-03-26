@@ -1,0 +1,6 @@
+local OFFSET = vmath.vector3(-170, 134, 0)
+
+function update(self, dt)
+	local camera_pos = go.get_position(msg.url("main:/camera"))
+	go.set_position(vmath.vector3(camera_pos.x + OFFSET.x, camera_pos.y + OFFSET.y, 0))
+end

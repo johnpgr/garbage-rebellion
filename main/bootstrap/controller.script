@@ -1,0 +1,49 @@
+local game_state = require "main.game.game_state"
+
+local function load_proxy(proxy)
+	msg.post(proxy, "load")
+end
+
+local function unload_proxy(proxy)
+	msg.post(proxy, "disable")
+	msg.post(proxy, "final")
+	msg.post(proxy, "unload")
+end
+
+local function switch_to(self, proxy)
+	if self.current_proxy == proxy then
+		return
+	end
+
+	self.pending_proxy = proxy
+	if self.current_proxy then
+		unload_proxy(self.current_proxy)
+	else
+		self.current_proxy = proxy
+		self.pending_proxy = nil
+		load_proxy(proxy)
+	end
+end
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	self.current_proxy = nil
+	self.pending_proxy = nil
+	switch_to(self, "#menu_proxy")
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("proxy_loaded") then
+		msg.post(sender, "init")
+		msg.post(sender, "enable")
+	elseif message_id == hash("proxy_unloaded") and self.pending_proxy then
+		self.current_proxy = self.pending_proxy
+		self.pending_proxy = nil
+		load_proxy(self.current_proxy)
+	elseif message_id == hash("show_game") then
+		game_state.reset_session()
+		switch_to(self, "#game_proxy")
+	elseif message_id == hash("show_menu") then
+		switch_to(self, "#menu_proxy")
+	end
+end

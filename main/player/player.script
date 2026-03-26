@@ -2,21 +2,23 @@
 -- Anexe em: player.go (com componentes Sprite + CollisionObject)
 
 local aabb = require "main.collision.aabb"
+local game_state = require "main.game.game_state"
 
---- @type number  Velocidade horizontal em pixels/segundo
-local SPEED = 220
-
---- @type number  Velocidade para cima aplicada no pulo
-local JUMP_FORCE   = 550
-
---- @type number  Aceleracao para baixo por segundo ao quadrado
-local GRAVITY      = 1400
-
---- @type number  Velocidade maxima de queda (velocidade terminal)
-local MAX_FALL     = 900
-
+local SPEED = 120
+local JUMP_FORCE = 320
+local GRAVITY = 800
+local MAX_FALL = 900
+local ATTACK_DURATION = 0.24
+local ATTACK_HALF_EXTENTS = vmath.vector3(16, 10, 0)
+local HURT_DURATION = 0.3
+local INVINCIBILITY_TIME = 1.0
+local KNOCKBACK_X = 170
+local KNOCKBACK_Y = 220
 local PLAYER_HALF_EXTENTS = vmath.vector3(6, 11, 0)
-local PLAYER_DEBUG_COLOR  = vmath.vector4(0.15, 0.85, 1.0, 1.0)
+local PLAYER_DEBUG_COLOR = vmath.vector4(0.15, 0.85, 1.0, 1.0)
+local SMALL_TINT = vmath.vector4(0.72, 0.72, 0.78, 1.0)
+local NORMAL_TINT = vmath.vector4(1.0, 1.0, 1.0, 1.0)
+local POWERED_TINT = vmath.vector4(1.18, 1.12, 0.92, 1.0)
 
 ------------------------------------------------------------------------
 
@@ -48,11 +50,15 @@ end
 --- @param self  PlayerState
 local function update_anim(self)
 	local moving = self.velocity.x ~= 0
-	local f      = self.facing  -- "east" ou "west"
+	local f = self.facing
 
 	sprite.set_hflip("#sprite", f == "west")
 
-	if not self.grounded then
+	if self.dead or self.hurt_timer > 0 then
+		play_anim(self, "hit_east")
+	elseif self.attack_timer > 0 then
+		play_anim(self, "jab_east")
+	elseif not self.grounded then
 		play_anim(self, "jump_east")
 	elseif moving then
 		play_anim(self, "run_east")
@@ -106,6 +112,82 @@ local function resolve_vertical(position, velocity_y)
 	return grounded, hit_ceiling
 end
 
+local function set_sprite_visible(self, visible)
+	if self.sprite_visible == visible then
+		return
+	end
+
+	self.sprite_visible = visible
+	msg.post("#sprite", visible and "enable" or "disable")
+end
+
+local function update_visual_state(self)
+	local tint = NORMAL_TINT
+
+	if game_state.player_state == game_state.PLAYER_STATE_SMALL then
+		tint = SMALL_TINT
+	elseif game_state.player_state == game_state.PLAYER_STATE_POWERED then
+		tint = POWERED_TINT
+	end
+
+	sprite.set_constant("#sprite", "tint", tint)
+end
+
+local function update_player_state(self, position)
+	game_state.set_player(msg.url(), position, PLAYER_HALF_EXTENTS, self.invincible_timer > 0, self.dead)
+end
+
+local function get_attack_center(self, position)
+	local direction = self.facing == "east" and 1 or -1
+	return vmath.vector3(
+		position.x + direction * (PLAYER_HALF_EXTENTS.x + ATTACK_HALF_EXTENTS.x - 2),
+		position.y,
+		position.z
+	)
+end
+
+local function attack_enemies(self, position)
+	if self.attack_timer <= 0 then
+		return
+	end
+
+	local attack_center = get_attack_center(self, position)
+	aabb.draw_box(attack_center, ATTACK_HALF_EXTENTS, PLAYER_DEBUG_COLOR)
+
+	for enemy_id, enemy in pairs(game_state.enemies) do
+		if not self.attack_hits[enemy_id]
+		and enemy.center
+		and enemy.half_extents
+		and aabb.intersects(attack_center, ATTACK_HALF_EXTENTS, enemy.center, enemy.half_extents) then
+			self.attack_hits[enemy_id] = true
+			msg.post(enemy.url, "damage", { amount = 1 })
+		end
+	end
+end
+
+local function take_damage(self, amount, from_x)
+	if self.dead or self.invincible_timer > 0 then
+		return
+	end
+
+	self.invincible_timer = INVINCIBILITY_TIME
+	self.hurt_timer = HURT_DURATION
+	self.attack_timer = 0
+	self.attack_hits = {}
+	self.velocity.y = KNOCKBACK_Y
+
+	if from_x then
+		self.velocity.x = go.get_position().x < from_x and -KNOCKBACK_X or KNOCKBACK_X
+	end
+
+	if game_state.take_hit(amount) then
+		self.dead = true
+		game_state.set_game_over("dead", 0)
+	end
+
+	update_visual_state(self)
+end
+
 ------------------------------------------------------------------------
 
 function init(self)
@@ -122,6 +204,12 @@ function init(self)
 
 	--- @type string
 	self.current_anim = ""
+	self.attack_timer = 0
+	self.attack_hits = {}
+	self.hurt_timer = 0
+	self.invincible_timer = 0
+	self.dead = false
+	self.sprite_visible = true
 
 	--- @type InputState
 	self.input = {
@@ -129,11 +217,32 @@ function init(self)
 		right = false,
 		jump  = false,
 	}
+
+	update_visual_state(self)
+	update_player_state(self, go.get_position())
 end
 
 function update(self, dt)
-	-- ── Horizontal ────────────────────────────────────────────────────
-	if self.input.right then
+	if self.hurt_timer > 0 then
+		self.hurt_timer = math.max(0, self.hurt_timer - dt)
+	end
+
+	if self.invincible_timer > 0 then
+		self.invincible_timer = math.max(0, self.invincible_timer - dt)
+		set_sprite_visible(self, math.floor(self.invincible_timer * 12) % 2 == 0)
+	else
+		set_sprite_visible(self, true)
+	end
+
+	if self.attack_timer > 0 then
+		self.attack_timer = math.max(0, self.attack_timer - dt)
+	end
+
+	if self.dead or game_state.game_over then
+		self.velocity.x = 0
+	elseif self.hurt_timer > 0 then
+		self.velocity.x = self.velocity.x * 0.9
+	elseif self.input.right then
 		self.velocity.x = SPEED
 		self.facing = "east"
 	elseif self.input.left then
@@ -143,13 +252,11 @@ function update(self, dt)
 		self.velocity.x = 0
 	end
 
-	-- ── Gravidade ─────────────────────────────────────────────────────
 	self.velocity.y = self.velocity.y - GRAVITY * dt
 	if self.velocity.y < -MAX_FALL then
 		self.velocity.y = -MAX_FALL
 	end
 
-	-- ── Movimento com AABB ────────────────────────────────────────────
 	local pos = go.get_position()
 	pos.x = pos.x + self.velocity.x * dt
 
@@ -167,8 +274,10 @@ function update(self, dt)
 	self.grounded = grounded
 
 	go.set_position(pos)
+	update_player_state(self, pos)
+	attack_enemies(self, pos)
 
-	-- ── Animacao e debug ──────────────────────────────────────────────
+	update_visual_state(self)
 	update_anim(self)
 	aabb.draw_box(pos, PLAYER_HALF_EXTENTS, PLAYER_DEBUG_COLOR)
 end
@@ -180,9 +289,25 @@ function on_input(self, action_id, action)
 	if action_id == hash("left")  then self.input.left  = held
 	elseif action_id == hash("right") then self.input.right = held
 	elseif action_id == hash("jump")  then
-		if action.pressed and self.grounded then
+		if action.pressed and self.grounded and not self.dead and not game_state.game_over then
 			self.velocity.y = JUMP_FORCE
 			self.grounded   = false
 		end
+	elseif action_id == hash("attack") then
+		if action.pressed and self.attack_timer <= 0 and not self.dead and not game_state.game_over then
+			self.attack_timer = ATTACK_DURATION
+			self.attack_hits = {}
+		end
 	end
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("damage") then
+		take_damage(self, message.amount or 1, message.from_x)
+		update_player_state(self, go.get_position())
+	end
+end
+
+function final(self)
+	game_state.clear_player()
 end
