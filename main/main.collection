@@ -103,17 +103,6 @@ instances {
   }
 }
 instances {
-  id: "wall_1"
-  prototype: "/main/debug_box/debug_box.go"
-  position {
-    x: 400.0
-    y: 37.0
-  }
-  scale3 {
-    y: 4.0
-  }
-}
-instances {
   id: "platform_1"
   prototype: "/main/debug_box/debug_box.go"
   position {
@@ -135,17 +124,6 @@ instances {
   scale3 {
     x: 1.5
     y: 1.5
-  }
-}
-instances {
-  id: "wall_2"
-  prototype: "/main/debug_box/debug_box.go"
-  position {
-    x: 780.0
-    y: 37.0
-  }
-  scale3 {
-    y: 4.0
   }
 }
 instances {
