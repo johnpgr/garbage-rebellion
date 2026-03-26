@@ -1,5 +1,5 @@
 [project]
-title = Empty Project
+title = Garbage Rebellion
 version = 1.0
 publisher = 
 developer = 
@@ -7,7 +7,7 @@ write_log = 0
 write_log_file = 0
 minimum_log_level = 1
 compress_archive = 1
-title_as_file_name = EmptyProject
+title_as_file_name = GarbageRebellion
 
 [display]
 width = 960
@@ -57,7 +57,7 @@ position_iterations = 10
 sub_step_count = 4
 
 [bootstrap]
-main_collection = /main/main.collectionc
+main_collection = /main/bootstrap/bootstrap.collectionc
 render = /builtins/render/default.renderc
 debug_init_script = 
 
