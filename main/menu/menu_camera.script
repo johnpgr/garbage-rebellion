@@ -1,3 +1,6 @@
+--- @class MenuCameraState
+
+--- @param self MenuCameraState
 function init(self)
 	local position = go.get_position()
 	if position.z <= 0 then

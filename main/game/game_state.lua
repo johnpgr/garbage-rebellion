@@ -1,11 +1,31 @@
 local M = {}
 
-local LEVEL_TIME = 120
+M.MAX_HP = 5
 
-M.PLAYER_STATE_SMALL = 1
-M.PLAYER_STATE_NORMAL = 2
-M.PLAYER_STATE_POWERED = 3
+--- @class GameEnemyState
+--- @field url url
+--- @field center vector3
+--- @field half_extents vector3
+--- @field hp number
 
+--- @class GameStateModule
+--- @field MAX_HP integer
+--- @field hp integer
+--- @field game_over boolean
+--- @field game_over_reason string|nil
+--- @field menu_delay number|nil
+--- @field player_url url|nil
+--- @field player_center vector3|nil
+--- @field player_half_extents vector3|nil
+--- @field player_invincible boolean
+--- @field player_dead boolean
+--- @field enemies table<string, GameEnemyState>
+
+--- @type GameStateModule
+M = M
+
+--- @param value vector3|nil
+--- @return vector3|nil
 local function copy_v3(value)
 	if not value then
 		return nil
@@ -14,11 +34,9 @@ local function copy_v3(value)
 	return vmath.vector3(value.x, value.y, value.z)
 end
 
+--- @return nil
 function M.reset_session()
-	M.player_state = M.PLAYER_STATE_NORMAL
-	M.score = 0
-	M.level_duration = LEVEL_TIME
-	M.time_left = LEVEL_TIME
+	M.hp = M.MAX_HP
 	M.game_over = false
 	M.game_over_reason = nil
 	M.menu_delay = nil
@@ -30,6 +48,11 @@ function M.reset_session()
 	M.enemies = {}
 end
 
+--- @param url url
+--- @param center vector3
+--- @param half_extents vector3
+--- @param invincible boolean|nil
+--- @param dead boolean|nil
 function M.set_player(url, center, half_extents, invincible, dead)
 	M.player_url = url
 	M.player_center = copy_v3(center)
@@ -38,6 +61,7 @@ function M.set_player(url, center, half_extents, invincible, dead)
 	M.player_dead = dead or false
 end
 
+--- @return nil
 function M.clear_player()
 	M.player_url = nil
 	M.player_center = nil
@@ -46,6 +70,11 @@ function M.clear_player()
 	M.player_dead = false
 end
 
+--- @param id string
+--- @param url url
+--- @param center vector3
+--- @param half_extents vector3
+--- @param hp number
 function M.register_enemy(id, url, center, half_extents, hp)
 	M.enemies[id] = {
 		url = url,
@@ -55,6 +84,10 @@ function M.register_enemy(id, url, center, half_extents, hp)
 	}
 end
 
+--- @param id string
+--- @param center vector3
+--- @param half_extents vector3
+--- @param hp number
 function M.update_enemy(id, center, half_extents, hp)
 	local enemy = M.enemies[id]
 	if not enemy then
@@ -66,42 +99,26 @@ function M.update_enemy(id, center, half_extents, hp)
 	enemy.hp = hp
 end
 
+--- @param id string
 function M.remove_enemy(id)
 	M.enemies[id] = nil
 end
 
-function M.add_score(amount)
-	M.score = M.score + amount
-end
-
-function M.get_player_state_label()
-	if M.player_state == M.PLAYER_STATE_POWERED then
-		return "* POWERED"
-	elseif M.player_state == M.PLAYER_STATE_NORMAL then
-		return "o NORMAL"
-	end
-
-	return ". SMALL"
-end
-
-function M.power_up()
-	M.player_state = math.min(M.PLAYER_STATE_POWERED, M.player_state + 1)
-end
-
+--- @param amount number|nil
+--- @return boolean true if player is dead (hp <= 0)
 function M.take_hit(amount)
 	amount = amount or 1
-	for _ = 1, amount do
-		if M.player_state == M.PLAYER_STATE_SMALL then
-			M.player_state = 0
-			return true
-		end
-
-		M.player_state = M.player_state - 1
-	end
-
-	return false
+	M.hp = math.max(0, M.hp - amount)
+	return M.hp <= 0
 end
 
+--- @param amount number|nil
+function M.heal(amount)
+	amount = amount or 1
+	M.hp = math.min(M.MAX_HP, M.hp + amount)
+end
+
+--- @param delay number|nil
 function M.queue_return_to_menu(delay)
 	delay = delay or 0
 	if M.menu_delay == nil or delay < M.menu_delay then
@@ -109,6 +126,8 @@ function M.queue_return_to_menu(delay)
 	end
 end
 
+--- @param reason string
+--- @param delay number|nil
 function M.set_game_over(reason, delay)
 	if not M.game_over then
 		M.game_over = true
@@ -120,14 +139,9 @@ function M.set_game_over(reason, delay)
 	end
 end
 
+--- @param dt number
+--- @return boolean
 function M.tick(dt)
-	if not M.game_over then
-		M.time_left = math.max(0, M.time_left - dt)
-		if M.time_left <= 0 then
-			M.set_game_over("time", 0)
-		end
-	end
-
 	if M.menu_delay ~= nil then
 		M.menu_delay = math.max(0, M.menu_delay - dt)
 		if M.menu_delay == 0 then

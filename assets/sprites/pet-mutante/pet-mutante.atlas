@@ -1,131 +1,34 @@
 animations {
   id: "walk_east"
   images {
-    image: "/assets/sprites/pet-mutante/scary-walk/east/frame_000.png"
+    image: "/assets/sprites/pet-mutante/animations/walking-4-frames/east/frame_000.png"
   }
   images {
-    image: "/assets/sprites/pet-mutante/scary-walk/east/frame_001.png"
+    image: "/assets/sprites/pet-mutante/animations/walking-4-frames/east/frame_001.png"
   }
   images {
-    image: "/assets/sprites/pet-mutante/scary-walk/east/frame_002.png"
+    image: "/assets/sprites/pet-mutante/animations/walking-4-frames/east/frame_002.png"
   }
   images {
-    image: "/assets/sprites/pet-mutante/scary-walk/east/frame_003.png"
-  }
-  images {
-    image: "/assets/sprites/pet-mutante/scary-walk/east/frame_004.png"
-  }
-  images {
-    image: "/assets/sprites/pet-mutante/scary-walk/east/frame_005.png"
-  }
-  images {
-    image: "/assets/sprites/pet-mutante/scary-walk/east/frame_006.png"
-  }
-  images {
-    image: "/assets/sprites/pet-mutante/scary-walk/east/frame_007.png"
+    image: "/assets/sprites/pet-mutante/animations/walking-4-frames/east/frame_003.png"
   }
   playback: PLAYBACK_LOOP_FORWARD
   fps: 8
 }
 animations {
-  id: "attack_east"
-  images {
-    image: "/assets/sprites/pet-mutante/cross-punch/east/frame_000.png"
-  }
-  images {
-    image: "/assets/sprites/pet-mutante/cross-punch/east/frame_001.png"
-  }
-  images {
-    image: "/assets/sprites/pet-mutante/cross-punch/east/frame_002.png"
-  }
-  images {
-    image: "/assets/sprites/pet-mutante/cross-punch/east/frame_003.png"
-  }
-  images {
-    image: "/assets/sprites/pet-mutante/cross-punch/east/frame_004.png"
-  }
-  images {
-    image: "/assets/sprites/pet-mutante/cross-punch/east/frame_005.png"
-  }
-  playback: PLAYBACK_ONCE_FORWARD
-  fps: 10
-}
-animations {
   id: "hit_east"
   images {
-    image: "/assets/sprites/pet-mutante/taking-punch/east/frame_000.png"
+    image: "/assets/sprites/pet-mutante/rotations/east.png"
   }
-  images {
-    image: "/assets/sprites/pet-mutante/taking-punch/east/frame_001.png"
-  }
-  images {
-    image: "/assets/sprites/pet-mutante/taking-punch/east/frame_002.png"
-  }
-  images {
-    image: "/assets/sprites/pet-mutante/taking-punch/east/frame_003.png"
-  }
-  images {
-    image: "/assets/sprites/pet-mutante/taking-punch/east/frame_004.png"
-  }
-  images {
-    image: "/assets/sprites/pet-mutante/taking-punch/east/frame_005.png"
-  }
-  playback: PLAYBACK_ONCE_FORWARD
-  fps: 10
+  playback: PLAYBACK_NONE
+  fps: 0
 }
 animations {
-  id: "jump_east"
+  id: "attack_east"
   images {
-    image: "/assets/sprites/pet-mutante/jumping-2/east/frame_000.png"
+    image: "/assets/sprites/pet-mutante/rotations/east.png"
   }
-  images {
-    image: "/assets/sprites/pet-mutante/jumping-2/east/frame_001.png"
-  }
-  images {
-    image: "/assets/sprites/pet-mutante/jumping-2/east/frame_002.png"
-  }
-  images {
-    image: "/assets/sprites/pet-mutante/jumping-2/east/frame_003.png"
-  }
-  images {
-    image: "/assets/sprites/pet-mutante/jumping-2/east/frame_004.png"
-  }
-  images {
-    image: "/assets/sprites/pet-mutante/jumping-2/east/frame_005.png"
-  }
-  images {
-    image: "/assets/sprites/pet-mutante/jumping-2/east/frame_006.png"
-  }
-  images {
-    image: "/assets/sprites/pet-mutante/jumping-2/east/frame_007.png"
-  }
-  playback: PLAYBACK_ONCE_FORWARD
-  fps: 8
-}
-animations {
-  id: "sweep_east"
-  images {
-    image: "/assets/sprites/pet-mutante/leg-sweep/east/frame_000.png"
-  }
-  images {
-    image: "/assets/sprites/pet-mutante/leg-sweep/east/frame_001.png"
-  }
-  images {
-    image: "/assets/sprites/pet-mutante/leg-sweep/east/frame_002.png"
-  }
-  images {
-    image: "/assets/sprites/pet-mutante/leg-sweep/east/frame_003.png"
-  }
-  images {
-    image: "/assets/sprites/pet-mutante/leg-sweep/east/frame_004.png"
-  }
-  images {
-    image: "/assets/sprites/pet-mutante/leg-sweep/east/frame_005.png"
-  }
-  images {
-    image: "/assets/sprites/pet-mutante/leg-sweep/east/frame_006.png"
-  }
-  playback: PLAYBACK_ONCE_FORWARD
-  fps: 9
+  playback: PLAYBACK_NONE
+  fps: 0
 }
 extrude_borders: 2

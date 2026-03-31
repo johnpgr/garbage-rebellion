@@ -1,16 +1,10 @@
 -- camera.script
--- Side-scroller camera with fixed screen sections (Super Mario World style)
+-- Top-down camera with screen-section transitions (Zelda LttP style)
 -- Camera snaps to the next screen when the player crosses a boundary
 
---- @type number  Visible world width (display.width / orthographic_zoom)
 local SCREEN_W = 480
-
---- @type number  Fixed camera Y position (keeps ground level visible)
-local FIXED_Y = 60
-
---- @type number  How fast camera scrolls to next screen (higher = faster)
+local SCREEN_H = 320
 local SCROLL_SPEED = 8.0
-
 local DEFAULT_CAMERA_Z = 10
 
 ------------------------------------------------------------------------
@@ -24,26 +18,29 @@ function init(self)
 	msg.post("#camera", "acquire_camera_focus")
 	msg.post("@render:", "use_camera_projection")
 
-	-- initialize camera on the player's screen section
 	local player_pos = go.get_position(msg.url("main:/player"))
 	self.screen_x = math.floor(player_pos.x / SCREEN_W) * SCREEN_W
-	self.cam_pos = vmath.vector3(self.screen_x + SCREEN_W * 0.5, FIXED_Y, start_pos.z)
+	self.screen_y = math.floor(player_pos.y / SCREEN_H) * SCREEN_H
+	self.cam_pos = vmath.vector3(
+		self.screen_x + SCREEN_W * 0.5,
+		self.screen_y + SCREEN_H * 0.5,
+		start_pos.z
+	)
 	go.set_position(self.cam_pos)
 end
 
 function update(self, dt)
 	local player_pos = go.get_position(msg.url("main:/player"))
 
-	-- only horizontal screen sections; Y stays fixed
 	self.screen_x = math.floor(player_pos.x / SCREEN_W) * SCREEN_W
+	self.screen_y = math.floor(player_pos.y / SCREEN_H) * SCREEN_H
 
 	local target = vmath.vector3(
 		self.screen_x + SCREEN_W * 0.5,
-		FIXED_Y,
+		self.screen_y + SCREEN_H * 0.5,
 		self.cam_pos.z
 	)
 
-	-- smooth scroll to target screen
 	self.cam_pos = vmath.lerp(SCROLL_SPEED * dt, self.cam_pos, target)
 	go.set_position(self.cam_pos)
 end

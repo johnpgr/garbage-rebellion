@@ -3,7 +3,8 @@ instances {
   id: "player"
   prototype: "/main/player/player.go"
   position {
-    x: 48.0
+    x: 240.0
+    y: 160.0
   }
 }
 instances {
@@ -15,30 +16,8 @@ instances {
   prototype: "/main/camera/camera.go"
 }
 instances {
-  id: "hud_health"
-  prototype: "/main/hud/hud_health.go"
-  position {
-    z: 5.0
-  }
-  scale3 {
-    x: 0.5
-    y: 0.5
-  }
-}
-instances {
-  id: "hud_timer"
-  prototype: "/main/hud/hud_timer.go"
-  position {
-    z: 5.0
-  }
-  scale3 {
-    x: 0.5
-    y: 0.5
-  }
-}
-instances {
-  id: "hud_score"
-  prototype: "/main/hud/hud_score.go"
+  id: "hud_bar"
+  prototype: "/main/hud/hud_bar.go"
   position {
     z: 5.0
   }
@@ -56,150 +35,6 @@ instances {
   scale3 {
     x: 0.5
     y: 0.5
-  }
-}
-instances {
-  id: "ground"
-  prototype: "/main/debug_box/debug_box.go"
-  position {
-    x: 720.0
-    y: -27.0
-  }
-  scale3 {
-    x: 45.0
-  }
-}
-instances {
-  id: "wall_left"
-  prototype: "/main/debug_box/debug_box.go"
-  position {
-    y: 53.0
-  }
-  scale3 {
-    y: 4.0
-  }
-}
-instances {
-  id: "wall_right"
-  prototype: "/main/debug_box/debug_box.go"
-  position {
-    x: 1440.0
-    y: 53.0
-  }
-  scale3 {
-    y: 4.0
-  }
-}
-instances {
-  id: "crate_1"
-  prototype: "/main/debug_box/debug_box.go"
-  position {
-    x: 150.0
-    y: 5.0
-  }
-  scale3 {
-    x: 1.5
-    y: 1.5
-  }
-}
-instances {
-  id: "platform_1"
-  prototype: "/main/debug_box/debug_box.go"
-  position {
-    x: 550.0
-    y: 64.0
-  }
-  scale3 {
-    x: 4.0
-    y: 0.5
-  }
-}
-instances {
-  id: "crate_2"
-  prototype: "/main/debug_box/debug_box.go"
-  position {
-    x: 660.0
-    y: 5.0
-  }
-  scale3 {
-    x: 1.5
-    y: 1.5
-  }
-}
-instances {
-  id: "platform_2"
-  prototype: "/main/debug_box/debug_box.go"
-  position {
-    x: 900.0
-    y: 88.0
-  }
-  scale3 {
-    x: 3.0
-    y: 0.5
-  }
-}
-instances {
-  id: "platform_3"
-  prototype: "/main/debug_box/debug_box.go"
-  position {
-    x: 1150.0
-    y: 56.0
-  }
-  scale3 {
-    x: 4.0
-    y: 0.5
-  }
-}
-instances {
-  id: "crate_3"
-  prototype: "/main/debug_box/debug_box.go"
-  position {
-    x: 1300.0
-    y: 5.0
-  }
-  scale3 {
-    x: 1.5
-    y: 1.5
-  }
-}
-instances {
-  id: "trash_1"
-  prototype: "/main/collectible/collectible.go"
-  position {
-    x: 120.0
-    y: -3.0
-  }
-}
-instances {
-  id: "trash_2"
-  prototype: "/main/collectible/collectible.go"
-  position {
-    x: 540.0
-    y: 73.0
-  }
-}
-instances {
-  id: "trash_3"
-  prototype: "/main/collectible/collectible.go"
-  position {
-    x: 880.0
-    y: 97.0
-  }
-}
-instances {
-  id: "trash_4"
-  prototype: "/main/collectible/collectible.go"
-  position {
-    x: 1290.0
-    y: -3.0
-  }
-}
-instances {
-  id: "enemy_1"
-  prototype: "/main/enemy/enemy.go"
-  position {
-    x: 122.0
-    y: 15.0
   }
 }
 scale_along_z: 0

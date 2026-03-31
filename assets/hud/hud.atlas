@@ -1,7 +1,39 @@
 animations {
-  id: "health_bar"
+  id: "hp_5"
   images {
-    image: "/assets/hud/barra_de_vida.png"
+    image: "/assets/hud/hp_5.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 0
+}
+animations {
+  id: "hp_4"
+  images {
+    image: "/assets/hud/hp_4.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 0
+}
+animations {
+  id: "hp_3"
+  images {
+    image: "/assets/hud/hp_3.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 0
+}
+animations {
+  id: "hp_2"
+  images {
+    image: "/assets/hud/hp_2.png"
+  }
+  playback: PLAYBACK_NONE
+  fps: 0
+}
+animations {
+  id: "hp_1"
+  images {
+    image: "/assets/hud/hp_1.png"
   }
   playback: PLAYBACK_NONE
   fps: 0

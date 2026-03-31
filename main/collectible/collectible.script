@@ -5,6 +5,10 @@ local HALF           = vmath.vector3(8, 8, 0)
 local COLOR          = vmath.vector4(1.0, 0.85, 0.0, 1.0)
 local PICKUP_RADIUS_SQ = 20 * 20
 
+--- @class CollectibleState
+
+--- @param self CollectibleState
+--- @param dt number
 function update(self, dt)
 	local pos = go.get_position()
 	aabb.draw_box(pos, HALF, COLOR)

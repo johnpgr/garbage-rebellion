@@ -3,6 +3,13 @@ local aabb = require "main.collision.aabb"
 go.property("half_extents", vmath.vector3(16, 16, 0))
 go.property("color", vmath.vector4(0.95, 0.45, 0.15, 1.0))
 
+--- @class DebugBoxState
+--- @field box_id hash
+--- @field center vector3
+--- @field half_extents vector3
+--- @field color vector4
+
+--- @param self DebugBoxState
 function init(self)
 	local scale = go.get_scale()
 
@@ -17,12 +24,15 @@ function init(self)
 	aabb.register(self.box_id, self.center, self.half_extents)
 end
 
+--- @param self DebugBoxState
+--- @param dt number
 function update(self, dt)
 	self.center = go.get_position()
 	aabb.update(self.box_id, self.center, self.half_extents)
 	aabb.draw_box(self.center, self.half_extents, self.color)
 end
 
+--- @param self DebugBoxState
 function final(self)
 	aabb.unregister(self.box_id)
 end

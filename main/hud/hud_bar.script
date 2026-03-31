@@ -1,6 +1,35 @@
+local game_state = require "main.game.game_state"
+
 local OFFSET = vmath.vector3(-170, 134, 0)
 
+local HP_ANIMS = {
+	[5] = "hp_5",
+	[4] = "hp_4",
+	[3] = "hp_3",
+	[2] = "hp_2",
+	[1] = "hp_1",
+}
+
+--- @class HudBarState
+--- @field last_hp integer
+
+--- @param self HudBarState
+function init(self)
+	self.last_hp = -1
+end
+
+--- @param self HudBarState
+--- @param dt number
 function update(self, dt)
 	local camera_pos = go.get_position(msg.url("main:/camera"))
 	go.set_position(vmath.vector3(camera_pos.x + OFFSET.x, camera_pos.y + OFFSET.y, 0))
+
+	local hp = math.max(1, math.min(game_state.MAX_HP, game_state.hp))
+	if hp ~= self.last_hp then
+		self.last_hp = hp
+		local anim = HP_ANIMS[hp]
+		if anim then
+			sprite.play_flipbook("#sprite", hash(anim))
+		end
+	end
 end

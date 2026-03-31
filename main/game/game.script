@@ -1,4 +1,13 @@
 local game_state = require "main.game.game_state"
+local room_manager = require "main.world.room_manager"
+
+function init(self)
+	room_manager.init({
+		enemy = msg.url("#enemy_factory"),
+		wall = msg.url("#wall_factory"),
+	})
+	room_manager.spawn_all()
+end
 
 function update(self, dt)
 	if game_state.tick(dt) then

@@ -1,15 +1,23 @@
 local game_state = require "main.game.game_state"
 
+--- @class BootstrapControllerState
+--- @field current_proxy hash|string|nil
+--- @field pending_proxy hash|string|nil
+
+--- @param proxy hash|string
 local function load_proxy(proxy)
 	msg.post(proxy, "load")
 end
 
+--- @param proxy hash|string
 local function unload_proxy(proxy)
 	msg.post(proxy, "disable")
 	msg.post(proxy, "final")
 	msg.post(proxy, "unload")
 end
 
+--- @param self BootstrapControllerState
+--- @param proxy hash|string
 local function switch_to(self, proxy)
 	if self.current_proxy == proxy then
 		return
@@ -25,6 +33,7 @@ local function switch_to(self, proxy)
 	end
 end
 
+--- @param self BootstrapControllerState
 function init(self)
 	msg.post(".", "acquire_input_focus")
 	self.current_proxy = nil
@@ -32,6 +41,10 @@ function init(self)
 	switch_to(self, "#menu_proxy")
 end
 
+--- @param self BootstrapControllerState
+--- @param message_id hash
+--- @param message table
+--- @param sender url
 function on_message(self, message_id, message, sender)
 	if message_id == hash("proxy_loaded") then
 		msg.post(sender, "init")
